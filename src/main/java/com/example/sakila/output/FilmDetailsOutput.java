@@ -1,6 +1,7 @@
 package com.example.sakila.output;
 
 import com.example.sakila.entities.Film;
+import com.example.sakila.entities.Language;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -13,7 +14,8 @@ public class FilmDetailsOutput {
     private String title;
     private String description;
     private Year year;
-    private Byte languageID;
+    private Language language;
+    //private String language_name;
     private Byte originalLanguageID;
     private Byte rentalDuration;
     private BigDecimal rentalRate;
@@ -28,7 +30,7 @@ public class FilmDetailsOutput {
         title = f.getTitle();
         description = f.getDescription();
         year = f.getYear();
-        languageID = f.getLanguageID();
+        language = f.getLanguage();
         originalLanguageID = f.getOriginalLanguageID();
         rentalDuration = f.getRentalDuration();
         rentalRate = f.getRentalRate();

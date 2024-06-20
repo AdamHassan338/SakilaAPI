@@ -3,12 +3,14 @@ package com.example.sakila.controllers;
 
 import com.example.sakila.entities.Actor;
 import com.example.sakila.entities.Film;
+import com.example.sakila.entities.Language;
 import com.example.sakila.input.ActorInput;
 import com.example.sakila.input.FilmInput;
 import com.example.sakila.input.ValidationGroup;
 import com.example.sakila.output.ActorDetailsOutput;
 import com.example.sakila.output.FilmDetailsOutput;
 import com.example.sakila.repository.FilmRepository;
+import com.example.sakila.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class FilmController {
     @Autowired
     private FilmRepository filmRepository;
+    @Autowired
+    private LanguageRepository languageRepository;
 
     @GetMapping
     public List<FilmDetailsOutput> getFilms(){
@@ -43,7 +47,13 @@ public class FilmController {
         film.setLength(data.getLength());
         film.setRating(Film.ratingToEnum(data.getRating()));
         film.setYear(data.getYear());
-        film.setLanguageID(data.getLanguageID());
+        //film.setLanguageID(data.getLanguageID());
+        {
+            Optional<Language> language = languageRepository.findById(data.getLanguageID());
+            if(!language.isPresent())
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            film.setLanguage(language.get());
+        }
         film.setTitle(data.getTitle());
         film.setRentalRate(data.getRentalRate());
         film.setRentalDuration(data.getRentalDuration());
@@ -84,8 +94,12 @@ public class FilmController {
         if(data.getYear()!=null)
             found.setYear(data.getYear());
 
-        if(data.getLanguageID()!=null)
-            found.setLanguageID(data.getLanguageID());
+        if(data.getLanguageID()!=null){
+            Optional<Language> language = languageRepository.findById(data.getLanguageID());
+            if(!language.isPresent())
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            found.setLanguage(language.get());
+        }
 
         if(data.getOriginalLanguageID()!=null)
             found.setOriginalLanguageID(data.getOriginalLanguageID());

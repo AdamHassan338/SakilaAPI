@@ -81,8 +81,11 @@ public class Film {
     @Column(name = "release_year")
     private Year year;
 
-    @Column(name = "language_id")
-    private Byte languageID;
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
+
+
 
 
     @Column(name = "original_language_id")
