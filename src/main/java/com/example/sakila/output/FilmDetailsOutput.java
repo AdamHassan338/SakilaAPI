@@ -34,7 +34,7 @@ public class FilmDetailsOutput {
         rentalRate = f.getRentalRate();
         length = f.getLength();
         replacementCost = f.getReplacementCost();
-        rating = f.getRating();
+        rating = Film.enumToRating(f.getRating());
         specialFeatures = f.getSpecialFeatures();
     }
 }

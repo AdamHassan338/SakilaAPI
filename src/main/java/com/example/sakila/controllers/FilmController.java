@@ -36,12 +36,12 @@ public class FilmController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public FilmDetailsOutput createFilm(@Validated(ValidationGroup.Create.class) @RequestBody FilmInput data){
+    //@ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<FilmDetailsOutput> createFilm(@Validated(ValidationGroup.Create.class) @RequestBody FilmInput data){
         Film film = new Film();
         film.setDescription(data.getDescription());
         film.setLength(data.getLength());
-        film.setRating(data.getRating());
+        film.setRating(Film.ratingToEnum(data.getRating()));
         film.setYear(data.getYear());
         film.setLanguageID(data.getLanguageID());
         film.setTitle(data.getTitle());
@@ -52,8 +52,11 @@ public class FilmController {
         film.setSpecialFeatures(data.getSpecialFeatures());
         film.setRentalDuration(data.getRentalDuration());
 
+        if(film.getRating()== Film.Rating.INVALID)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
         film = filmRepository.save(film);
-        return new FilmDetailsOutput(film);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new FilmDetailsOutput(film));
     }
 
     @DeleteMapping("/{id}")
@@ -99,10 +102,14 @@ public class FilmController {
             found.setReplacementCost(data.getReplacementCost());
 
         if(data.getRating()!= null)
-            found.setRating(data.getRating());
+            found.setRating( Film.ratingToEnum(data.getRating()));
 
         if(data.getSpecialFeatures()!=null)
             found.setSpecialFeatures(data.getSpecialFeatures());
+
+        if(found.getRating()== Film.Rating.INVALID)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
 
         filmRepository.save(found);
 
