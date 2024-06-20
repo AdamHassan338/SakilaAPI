@@ -21,7 +21,6 @@ public class FilmDetailsOutput {
     private BigDecimal replacementCost;
     private String rating;
     private String specialFeatures;
-    private LocalDateTime lastUpadte;
 
 
     public FilmDetailsOutput(Film f){
@@ -37,6 +36,5 @@ public class FilmDetailsOutput {
         replacementCost = f.getReplacementCost();
         rating = f.getRating();
         specialFeatures = f.getSpecialFeatures();
-        lastUpadte = f.getLastUpadte();
     }
 }

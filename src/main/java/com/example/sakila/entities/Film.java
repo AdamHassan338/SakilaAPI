@@ -20,8 +20,10 @@ public class Film {
     @Column(name = "title")
     private String title;
 
+
     @Column(name = "description")
     private String description;
+
 
     @Column(name = "release_year")
     private Year year;
@@ -29,11 +31,14 @@ public class Film {
     @Column(name = "language_id")
     private Byte languageID;
 
+
     @Column(name = "original_language_id")
     private Byte originalLanguageID;
 
+
     @Column(name = "rental_duration")
     private Byte rentalDuration;
+
 
     @Column(name = "rental_rate")
     private BigDecimal rentalRate;
@@ -50,7 +55,5 @@ public class Film {
     @Column(name = "special_features")
     private String specialFeatures;
 
-    @Column(name = "last_update")
-    private LocalDateTime lastUpadte;
 
 }
