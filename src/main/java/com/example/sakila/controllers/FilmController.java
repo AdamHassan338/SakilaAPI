@@ -2,6 +2,8 @@ package com.example.sakila.controllers;
 
 
 import com.example.sakila.entities.Film;
+import com.example.sakila.output.ActorDetailsOutput;
+import com.example.sakila.output.FilmDetailsOutput;
 import com.example.sakila.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,13 @@ public class FilmController {
     private FilmRepository filmRepository;
 
     @GetMapping
-    public List<Film> getFilms(){
-        return filmRepository.findAll();
+    public List<FilmDetailsOutput> getFilms(){
+        return filmRepository.findAll().stream().map(FilmDetailsOutput::new).toList();
     }
 
     @GetMapping("/{id}")
-    public Film getActorByID(@PathVariable Short id){
-        return filmRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("No film with id: %d",id)));
+    public FilmDetailsOutput getFilmByID(@PathVariable Short id){
+        return filmRepository.findById(id).map(FilmDetailsOutput::new).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("No actor with id: %d",id)));
     }
 
 }

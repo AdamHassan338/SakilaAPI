@@ -1,6 +1,7 @@
 package com.example.sakila.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.time.Year;
 @Entity
 @Table(name = "film")
 @Getter
+@Setter
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
