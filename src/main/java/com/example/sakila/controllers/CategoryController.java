@@ -2,7 +2,7 @@ package com.example.sakila.controllers;
 
 import com.example.sakila.entities.Category;
 import com.example.sakila.output.CategoryDetailsOutput;
-import com.example.sakila.repository.CategoryRepository;
+import com.example.sakila.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +18,18 @@ import java.util.Optional;
 @RequestMapping("/categories")
 public class CategoryController {
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
     @GetMapping
     public List<CategoryDetailsOutput> getCategories(){
-        return categoryRepository.findAll().stream().map(CategoryDetailsOutput::new).toList();
+        return categoryService.getCategories();
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDetailsOutput> getFilmByID(@PathVariable Byte id){
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
+    public ResponseEntity<CategoryDetailsOutput> getCategoryByID(@PathVariable Byte id){
+        Optional<CategoryDetailsOutput> optionalCategory = categoryService.getCategory(id);
         if(!optionalCategory.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         else
-            return ResponseEntity.status(HttpStatus.FOUND).body(new CategoryDetailsOutput(optionalCategory.get()));
+            return ResponseEntity.status(HttpStatus.FOUND).body(optionalCategory.get());
     }
 }
