@@ -21,8 +21,12 @@ public class ActorService {
     }
 
 
-    public Optional<Actor> getActor(short id){
-        return actorRepository.findById(id);
+    public Optional<ActorDetailsOutput> getActor(short id){
+        Optional<Actor> optionalActor = actorRepository.findById(id);
+        if(!optionalActor.isPresent())
+            return Optional.empty();
+
+        return Optional.of(new ActorDetailsOutput(optionalActor.get()));
     }
 
     public Actor createaActor(ActorInput data){
@@ -37,7 +41,7 @@ public class ActorService {
 
 
     public void deleteActor(short id){
-        Optional<Actor> actor = getActor(id);
+        Optional<Actor> actor = actorRepository.findById(id);
         if(actor.isPresent())
             actorRepository.delete(actor.get());
 

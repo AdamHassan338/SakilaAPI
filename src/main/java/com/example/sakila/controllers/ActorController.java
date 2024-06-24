@@ -4,14 +4,12 @@ import com.example.sakila.entities.Actor;
 import com.example.sakila.input.ActorInput;
 import com.example.sakila.input.ValidationGroup;
 import com.example.sakila.output.ActorDetailsOutput;
-import com.example.sakila.repository.ActorRepository;
 import com.example.sakila.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +27,13 @@ public class ActorController {
     }
 
     @GetMapping("/{id}")
-    public ActorDetailsOutput getActorByID(@PathVariable Short id){
-        Optional<Actor> optionalActor = actorService.getActor(id);
-        if(optionalActor.isPresent()){
-            return new ActorDetailsOutput(optionalActor.get());
+    public ResponseEntity<ActorDetailsOutput> getActorByID(@PathVariable Short id){
+        Optional<ActorDetailsOutput> optionalOutput= actorService.getActor(id);
+        if(optionalOutput.isPresent()){
+            return ResponseEntity.status(HttpStatus.FOUND).body(optionalOutput.get());
 
         }else{
-            throw  new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("No actor with id: %d",id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
