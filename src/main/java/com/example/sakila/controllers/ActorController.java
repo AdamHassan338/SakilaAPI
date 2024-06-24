@@ -5,7 +5,6 @@ import com.example.sakila.input.ActorInput;
 import com.example.sakila.input.ValidationGroup;
 import com.example.sakila.output.ActorDetailsOutput;
 import com.example.sakila.repository.ActorRepository;
-import jakarta.persistence.PostUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +41,7 @@ public class ActorController {
 
         actor = actorRepository.save(actor);
         return new ActorDetailsOutput(actor);
+        //return ResponseEntity.status(HttpStatus.CREATED).body(actor);
     }
 
     @DeleteMapping("/{id}")

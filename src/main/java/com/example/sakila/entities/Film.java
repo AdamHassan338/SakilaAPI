@@ -1,6 +1,5 @@
 package com.example.sakila.entities;
 import com.example.sakila.enums.Rating;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,14 +8,13 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.Vector;
+import java.util.List;
+
 
 @Entity
 @Table(name = "film")
 @Getter
 @Setter
-//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","actors"})
 public class Film {
 
     @Id
@@ -44,8 +42,7 @@ public class Film {
             name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id"))
-    @JsonIgnore
-    private Set<Actor> actors;
+    private List<Actor> actors = new ArrayList<>();
 
     @Column(name = "original_language_id")
     private Byte originalLanguageID;
