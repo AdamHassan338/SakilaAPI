@@ -1,6 +1,7 @@
 package com.example.sakila.output;
 
 import com.example.sakila.entities.Actor;
+import com.example.sakila.entities.Category;
 import com.example.sakila.entities.Film;
 import com.example.sakila.entities.Language;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import static com.example.sakila.enums.Rating.enumToRating;
 @Getter
 public class FilmDetailsOutput {
 
+    private List<ShortCategoryDetailsOutput> categories = new ArrayList<>();
     private Short id;
     private String title;
     private String description;
@@ -29,6 +31,7 @@ public class FilmDetailsOutput {
     private BigDecimal replacementCost;
     private String rating;
     private String specialFeatures;
+
 
 
     public FilmDetailsOutput(Film f){
@@ -47,6 +50,10 @@ public class FilmDetailsOutput {
         replacementCost = f.getReplacementCost();
         rating = enumToRating(f.getRating());
         specialFeatures = f.getSpecialFeatures();
+        for(Category c : f.getCategories()){
+            categories.add(new ShortCategoryDetailsOutput(c));
+        }
+
     }
 
 
