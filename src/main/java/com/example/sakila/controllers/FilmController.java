@@ -4,6 +4,7 @@ package com.example.sakila.controllers;
 import com.example.sakila.entities.Actor;
 import com.example.sakila.entities.Film;
 import com.example.sakila.entities.Language;
+import com.example.sakila.enums.Rating;
 import com.example.sakila.input.ActorInput;
 import com.example.sakila.input.FilmInput;
 import com.example.sakila.input.ValidationGroup;
@@ -20,6 +21,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.sakila.enums.Rating.ratingToEnum;
 
 @RestController
 @RequestMapping("/films")
@@ -45,7 +48,7 @@ public class FilmController {
         Film film = new Film();
         film.setDescription(data.getDescription());
         film.setLength(data.getLength());
-        film.setRating(Film.ratingToEnum(data.getRating()));
+        film.setRating(ratingToEnum(data.getRating()));
         film.setYear(data.getYear());
         //film.setLanguageID(data.getLanguageID());
         {
@@ -62,7 +65,7 @@ public class FilmController {
         film.setSpecialFeatures(data.getSpecialFeatures());
         film.setRentalDuration(data.getRentalDuration());
 
-        if(film.getRating()== Film.Rating.INVALID)
+        if(film.getRating()== Rating.INVALID)
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
         film = filmRepository.save(film);
@@ -116,12 +119,12 @@ public class FilmController {
             found.setReplacementCost(data.getReplacementCost());
 
         if(data.getRating()!= null)
-            found.setRating( Film.ratingToEnum(data.getRating()));
+            found.setRating( ratingToEnum(data.getRating()));
 
         if(data.getSpecialFeatures()!=null)
             found.setSpecialFeatures(data.getSpecialFeatures());
 
-        if(found.getRating()== Film.Rating.INVALID)
+        if(found.getRating()== Rating.INVALID)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
 

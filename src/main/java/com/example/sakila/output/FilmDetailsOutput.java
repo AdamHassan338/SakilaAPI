@@ -1,5 +1,6 @@
 package com.example.sakila.output;
 
+import com.example.sakila.entities.Actor;
 import com.example.sakila.entities.Film;
 import com.example.sakila.entities.Language;
 import lombok.Getter;
@@ -7,6 +8,13 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.Vector;
+
+
+import static com.example.sakila.enums.Rating.enumToRating;
+
 @Getter
 public class FilmDetailsOutput {
 
@@ -15,6 +23,7 @@ public class FilmDetailsOutput {
     private String description;
     private Year year;
     private Language language;
+   private Set<Actor> actors;
     //private String language_name;
     private Byte originalLanguageID;
     private Byte rentalDuration;
@@ -31,12 +40,15 @@ public class FilmDetailsOutput {
         description = f.getDescription();
         year = f.getYear();
         language = f.getLanguage();
+        actors = f.getActors();
         originalLanguageID = f.getOriginalLanguageID();
         rentalDuration = f.getRentalDuration();
         rentalRate = f.getRentalRate();
         length = f.getLength();
         replacementCost = f.getReplacementCost();
-        rating = Film.enumToRating(f.getRating());
+        rating = enumToRating(f.getRating());
         specialFeatures = f.getSpecialFeatures();
     }
+
+
 }

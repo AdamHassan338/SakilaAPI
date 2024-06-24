@@ -1,15 +1,33 @@
 package com.example.sakila.converters;
 
 
-import com.example.sakila.entities.Film;
-import org.springframework.core.convert.converter.Converter;
 
-import static com.example.sakila.entities.Film.enumToRating;
+import com.example.sakila.enums.Rating;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
-public class RatingConverter implements Converter<Film.Rating, String> {
+
+import static com.example.sakila.enums.Rating.ratingToEnum;
+
+@Converter(autoApply = true)
+public class RatingConverter implements AttributeConverter<Rating, String> {
 
     @Override
-    public String convert(Film.Rating rating) {
-        return enumToRating(rating);
+    public String convertToDatabaseColumn(Rating rating) {
+        if(rating==null)
+            return null;
+        return rating.getCode();
+    }
+
+    @Override
+    public Rating convertToEntityAttribute(String s) {
+        if (s == null) {
+            return null;
+        }
+        try {
+            return ratingToEnum(s);
+        }catch (Exception e){
+            throw new IllegalArgumentException();
+        }
     }
 }
