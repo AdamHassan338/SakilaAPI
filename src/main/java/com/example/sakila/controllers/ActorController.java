@@ -5,6 +5,7 @@ import com.example.sakila.input.ActorInput;
 import com.example.sakila.input.ValidationGroup;
 import com.example.sakila.output.ActorDetailsOutput;
 import com.example.sakila.repository.ActorRepository;
+import com.example.sakila.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,26 +21,32 @@ import java.util.Optional;
 public class ActorController {
 
     @Autowired
-    private ActorRepository actorRepository;
+    private ActorService actorService;
 
     @GetMapping
     public List<ActorDetailsOutput> getActors(){
-        return actorRepository.findAll().stream().map(ActorDetailsOutput::new).toList();
+        return actorService.getActors().stream().map(ActorDetailsOutput::new).toList();
     }
 
     @GetMapping("/{id}")
     public ActorDetailsOutput getActorByID(@PathVariable Short id){
-        return actorRepository.findById(id).map(ActorDetailsOutput::new).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("No actor with id: %d",id)));
+        Optional<Actor> optionalActor = actorService.getActor(id);
+        if(optionalActor.isPresent()){
+            return new ActorDetailsOutput(optionalActor.get());
+
+        }else{
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("No actor with id: %d",id));
+        }
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ActorDetailsOutput createActor(@Validated(ValidationGroup.Create.class) @RequestBody ActorInput data){
-        Actor actor = new Actor();
-        actor.setFirstName(data.getFirstName());
-        actor.setLastName(data.getLastName());
 
-        actor = actorRepository.save(actor);
+
+
+        Actor actor = actorService.createaActor(data);
+
         return new ActorDetailsOutput(actor);
         //return ResponseEntity.status(HttpStatus.CREATED).body(actor);
     }
@@ -47,26 +54,19 @@ public class ActorController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteActor(@PathVariable Short id){
-        Optional<Actor> actor = actorRepository.findById(id);
-        if(actor.isPresent())
-            actorRepository.delete(actor.get());
+        actorService.deleteActor(id);
 
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ActorDetailsOutput> updateActor(@PathVariable Short id, @Validated(ValidationGroup.Update.class) @RequestBody ActorInput data){
-        Optional<Actor> actor = actorRepository.findById(id);
-        if(!actor.isPresent())
+        Optional<ActorDetailsOutput> output = actorService.updateActor(id,data);
+        if(!output.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        Actor found = actor.get();
-        if(data.getFirstName()!=null)
-            found.setFirstName(data.getFirstName());
-        if(data.getLastName()!=null)
-            found.setLastName(data.getLastName());
-        actorRepository.save(found);
 
-        return ResponseEntity.status(HttpStatus.OK).body(new ActorDetailsOutput(found));
+
+        return ResponseEntity.status(HttpStatus.OK).body(output.get());
     }
 
 
