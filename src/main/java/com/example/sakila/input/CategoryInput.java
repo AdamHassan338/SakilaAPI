@@ -4,11 +4,14 @@ package com.example.sakila.input;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import static com.example.sakila.input.ValidationGroup.*;
 
-@Data
+@Getter
+@Setter
 public class CategoryInput {
 
     @NotNull(groups = {Create.class})

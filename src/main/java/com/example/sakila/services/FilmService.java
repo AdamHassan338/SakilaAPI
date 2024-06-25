@@ -1,16 +1,19 @@
 package com.example.sakila.services;
 
+import com.example.sakila.entities.Actor;
 import com.example.sakila.entities.Category;
 import com.example.sakila.entities.Film;
 import com.example.sakila.entities.Language;
 import com.example.sakila.enums.Rating;
 import com.example.sakila.input.FilmInput;
 import com.example.sakila.output.FilmDetailsOutput;
+import com.example.sakila.repository.ActorRepository;
 import com.example.sakila.repository.CategoryRepository;
 import com.example.sakila.repository.FilmRepository;
 import com.example.sakila.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +30,9 @@ public class FilmService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ActorRepository actorRepository;
 
     public List<FilmDetailsOutput> getFilms(){
         return filmRepository.findAll().stream().map(FilmDetailsOutput::new).toList();
@@ -163,6 +169,20 @@ public class FilmService {
 
 
         }
+
+        List<Actor> tempActors = new ArrayList<>();
+        for(Short s : data.getActors()){
+
+
+            Optional<Actor> actor = actorRepository.findById(s);
+            if(!actor.isPresent())
+                return Optional.empty();
+            tempActors.add(actor.get());
+
+
+        }
+        found.setActors(tempActors);
+
         found.setCategories(temp);
 
         filmRepository.save(found);

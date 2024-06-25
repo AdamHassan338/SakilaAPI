@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.sakila.input.ValidationGroup.*;
@@ -55,7 +56,10 @@ public class FilmInput {
     private List<Byte> categories;
 
 
-    public FilmInput(String title, String description, Year year, Byte languageID, Byte originalLanguageID, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String rating, String specialFeatures, List<Byte> categories) {
+    private List<Short> actors = new ArrayList<>();
+
+
+    public FilmInput(String title, String description, Year year, Byte languageID, Byte originalLanguageID, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String rating, String specialFeatures, List<Byte> categories, List<Short> actors) {
         this.title = title;
         this.description = description;
         this.year = year;
@@ -71,7 +75,7 @@ public class FilmInput {
             this.rating = rating;
         this.specialFeatures = specialFeatures;
         this.categories = categories;
-
+        this.actors = actors;
     }
 
 }
