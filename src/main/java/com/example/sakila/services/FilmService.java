@@ -31,8 +31,12 @@ public class FilmService {
         return filmRepository.findAll().stream().map(FilmDetailsOutput::new).toList();
     }
 
-    public List<FilmDetailsOutput> getFilmsInCatagory(String catagoryName){
+    public List<FilmDetailsOutput> getFilmsInCatagoryName(String catagoryName){
         return filmRepository.findByCategoryName(catagoryName.strip()).stream().map(FilmDetailsOutput::new).toList();
+
+    }
+    public List<FilmDetailsOutput> getFilmsInCatagoryid(Byte id){
+        return filmRepository.findByCategoryId(id).stream().map(FilmDetailsOutput::new).toList();
 
     }
 
@@ -41,7 +45,7 @@ public class FilmService {
     }
 
 
-    public List<FilmDetailsOutput> getFilmsInCatagory(Byte id){
+    public List<FilmDetailsOutput> getFilmsInCatagoryName(Byte id){
         return filmRepository.findByCategoryId(id).stream().map(FilmDetailsOutput::new).toList();
 
     }
