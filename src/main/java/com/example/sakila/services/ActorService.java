@@ -20,6 +20,11 @@ public class ActorService {
         return actorRepository.findAll();
     }
 
+    public List<Actor> findActorsByFirstName(String name){
+        System.out.println(name);
+        return actorRepository.findByFirstNameContainingIgnoreCase(name);
+    }
+
 
     public Optional<ActorDetailsOutput> getActor(short id){
         Optional<Actor> optionalActor = actorRepository.findById(id);

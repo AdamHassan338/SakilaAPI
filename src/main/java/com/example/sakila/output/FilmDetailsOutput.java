@@ -16,11 +16,11 @@ import static com.example.sakila.enums.Rating.enumToRating;
 @Getter
 public class FilmDetailsOutput {
 
-    private List<ShortCategoryDetailsOutput> categories = new ArrayList<>();
     private Short id;
     private String title;
     private String description;
     private Year year;
+    private List<ShortCategoryDetailsOutput> categories = new ArrayList<>();
     private Language language;
     private List<ShortActorOutput> actors = new ArrayList<>();
     //private String language_name;

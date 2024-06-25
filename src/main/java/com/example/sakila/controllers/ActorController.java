@@ -22,7 +22,9 @@ public class ActorController {
     private ActorService actorService;
 
     @GetMapping
-    public List<ActorDetailsOutput> getActors(){
+    public List<ActorDetailsOutput> getActors(@RequestParam(required = false)  Optional<String> firstName){
+        if(firstName.isPresent())
+            return actorService.findActorsByFirstName(firstName.get()).stream().map(ActorDetailsOutput::new).toList();
         return actorService.getActors().stream().map(ActorDetailsOutput::new).toList();
     }
 

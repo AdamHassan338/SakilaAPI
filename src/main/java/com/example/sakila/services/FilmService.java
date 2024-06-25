@@ -1,15 +1,19 @@
 package com.example.sakila.services;
 
+import com.example.sakila.entities.Category;
 import com.example.sakila.entities.Film;
 import com.example.sakila.entities.Language;
 import com.example.sakila.enums.Rating;
 import com.example.sakila.input.FilmInput;
 import com.example.sakila.output.FilmDetailsOutput;
+import com.example.sakila.repository.CategoryRepository;
 import com.example.sakila.repository.FilmRepository;
 import com.example.sakila.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.catalog.Catalog;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +24,9 @@ public class FilmService {
     private FilmRepository filmRepository;
     @Autowired
     private LanguageRepository languageRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public List<FilmDetailsOutput> getFilms(){
         return filmRepository.findAll().stream().map(FilmDetailsOutput::new).toList();
@@ -46,6 +53,19 @@ public class FilmService {
                 return Optional.empty();
             film.setLanguage(language.get());
         }
+
+        List<Category> temp = new ArrayList<>();
+        for(Byte b : data.getCategories()){
+
+            Optional<Category> category = categoryRepository.findById(b);
+            if(!category.isPresent())
+                return Optional.empty();
+            temp.add(category.get());
+
+
+        }
+        film.setCategories(temp);
+
         film.setTitle(data.getTitle());
         film.setRentalRate(data.getRentalRate());
         film.setRentalDuration(data.getRentalDuration());
@@ -114,6 +134,17 @@ public class FilmService {
         if(found.getRating()== Rating.INVALID)
             return Optional.empty();
 
+        List<Category> temp = new ArrayList<>();
+        for(Byte b : data.getCategories()){
+
+                Optional<Category> category = categoryRepository.findById(b);
+                if(!category.isPresent())
+                    return Optional.empty();
+                temp.add(category.get());
+
+
+        }
+        found.setCategories(temp);
 
         filmRepository.save(found);
 

@@ -2,13 +2,11 @@ package com.example.sakila.input;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import jdk.jfr.Timestamp;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.Set;
+import java.util.List;
 
 import static com.example.sakila.input.ValidationGroup.*;
 
@@ -52,8 +50,12 @@ public class FilmInput {
     @Size(min = 0, max = 200)
     private String specialFeatures;
 
+    @Size(min =1)
+    @NotNull(groups = {Create.class})
+    private List<Byte> categories;
 
-    public FilmInput(String title, String description, Year year, Byte languageID, Byte originalLanguageID, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String rating, String specialFeatures) {
+
+    public FilmInput(String title, String description, Year year, Byte languageID, Byte originalLanguageID, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, String rating, String specialFeatures, List<Byte> categories) {
         this.title = title;
         this.description = description;
         this.year = year;
@@ -68,6 +70,7 @@ public class FilmInput {
         if(rating!= null)
             this.rating = rating;
         this.specialFeatures = specialFeatures;
+        this.categories = categories;
 
     }
 
