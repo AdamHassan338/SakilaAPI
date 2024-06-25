@@ -25,6 +25,8 @@ public class ActorService {
         return actorRepository.findByFirstNameContainingIgnoreCase(name);
     }
 
+    
+
 
     public Optional<ActorDetailsOutput> getActor(short id){
         Optional<Actor> optionalActor = actorRepository.findById(id);

@@ -22,7 +22,9 @@ public class FilmController {
     private FilmService filmService;
 
     @GetMapping
-    public List<FilmDetailsOutput> getFilms(){
+    public List<FilmDetailsOutput> getFilms(@RequestParam(required = false)  Optional<String> categoryName){
+        if(categoryName.isPresent())
+            return filmService.getFilmsInCatagory(categoryName.get());
         return filmService.getFilms();
     }
 

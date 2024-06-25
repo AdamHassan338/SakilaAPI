@@ -12,7 +12,6 @@ import com.example.sakila.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.catalog.Catalog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +29,18 @@ public class FilmService {
 
     public List<FilmDetailsOutput> getFilms(){
         return filmRepository.findAll().stream().map(FilmDetailsOutput::new).toList();
+    }
+
+    public List<FilmDetailsOutput> getFilmsInCatagory(String catagoryName){
+        System.out.println(catagoryName);
+        return filmRepository.findByCategoryName(catagoryName.strip()).stream().map(FilmDetailsOutput::new).toList();
+
+    }
+
+
+    public List<FilmDetailsOutput> getFilmsInCatagory(Byte id){
+        return filmRepository.findByCategoryId(id).stream().map(FilmDetailsOutput::new).toList();
+
     }
 
     public Optional<FilmDetailsOutput> getFilm(Short id){
