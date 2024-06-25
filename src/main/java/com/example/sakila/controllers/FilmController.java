@@ -22,11 +22,18 @@ public class FilmController {
     private FilmService filmService;
 
     @GetMapping
-    public List<FilmDetailsOutput> getFilms(@RequestParam(required = false)  Optional<String> categoryName){
+    public List<FilmDetailsOutput> getFilms(@RequestParam("categoryName")  Optional<String> categoryName,@RequestParam("actorFullName")  Optional<String> actorFullName){
+
         if(categoryName.isPresent())
             return filmService.getFilmsInCatagory(categoryName.get());
+        if(actorFullName.isPresent()){
+            System.out.printf(actorFullName.get());
+            return filmService.getFilmsByActorFullName(actorFullName.get());}
         return filmService.getFilms();
     }
+
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<FilmDetailsOutput> getFilmByID(@PathVariable Short id){

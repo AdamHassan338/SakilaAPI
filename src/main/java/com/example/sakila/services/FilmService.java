@@ -32,9 +32,12 @@ public class FilmService {
     }
 
     public List<FilmDetailsOutput> getFilmsInCatagory(String catagoryName){
-        System.out.println(catagoryName);
         return filmRepository.findByCategoryName(catagoryName.strip()).stream().map(FilmDetailsOutput::new).toList();
 
+    }
+
+    public List<FilmDetailsOutput> getFilmsByActorFullName(String fullName ){
+        return filmRepository.findByCategoryName(fullName.strip()).stream().map(FilmDetailsOutput::new).toList();
     }
 
 

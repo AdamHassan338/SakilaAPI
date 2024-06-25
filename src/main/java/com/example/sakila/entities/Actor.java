@@ -3,6 +3,7 @@ package com.example.sakila.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,9 @@ public class Actor {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Formula("concat(first_name,last_name)")
+    private String fullName;
 
     @ManyToMany(mappedBy = "actors")
     private List<Film> films = new ArrayList<>();
