@@ -5,6 +5,7 @@ import com.example.sakila.input.ActorInput;
 import com.example.sakila.output.ActorDetailsOutput;
 import com.example.sakila.repository.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,16 +17,20 @@ public class ActorService {
     @Autowired
     ActorRepository actorRepository;
 
-    public List<Actor> getActors(){
-        return actorRepository.findAll();
+    public List<ActorDetailsOutput> getActors(int page,int size){
+        return actorRepository.findAll(PageRequest.of(page,size)).stream().map(ActorDetailsOutput::new).toList();
     }
 
-    public List<Actor> findActorsByFirstName(String name){
+    public List<ActorDetailsOutput> findActorsByFirstName(String name, int page, int size){
         System.out.println(name);
-        return actorRepository.findByFirstNameContainingIgnoreCase(name);
+        return actorRepository.findByFirstName(name, PageRequest.of(page,size)).stream().map(ActorDetailsOutput::new).toList();
+    }
+    public List<ActorDetailsOutput> findActorsByLastName(String lastName, int page ,int size){
+
+        return actorRepository.findByLastNameContainingIgnoreCase(lastName, PageRequest.of(page,size)).stream().map(ActorDetailsOutput::new).toList();
     }
 
-    
+
 
 
     public Optional<ActorDetailsOutput> getActor(short id){

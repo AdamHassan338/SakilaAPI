@@ -22,10 +22,14 @@ public class ActorController {
     private ActorService actorService;
 
     @GetMapping
-    public List<ActorDetailsOutput> getActors(@RequestParam(required = false)  Optional<String> firstName){
+    public List<ActorDetailsOutput> getActors(@RequestParam("firstName")  Optional<String> firstName,@RequestParam("lastName")  Optional<String> lastName,
+                                              @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size",defaultValue = "10") int size){
         if(firstName.isPresent())
-            return actorService.findActorsByFirstName(firstName.get()).stream().map(ActorDetailsOutput::new).toList();
-        return actorService.getActors().stream().map(ActorDetailsOutput::new).toList();
+            return actorService.findActorsByFirstName(firstName.get().trim(),page,size);
+        if(lastName.isPresent())
+            return actorService.findActorsByLastName(lastName.get(),page,size);
+
+        return actorService.getActors(page,size);
     }
 
     @GetMapping("/{id}")

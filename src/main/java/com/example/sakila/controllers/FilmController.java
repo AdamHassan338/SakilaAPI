@@ -22,15 +22,16 @@ public class FilmController {
     private FilmService filmService;
 
     @GetMapping
-    public List<FilmDetailsOutput> getFilms(@RequestParam("categoryName")  Optional<String> categoryName,@RequestParam("categoryID") Optional<Byte> categoryID ,@RequestParam("actorFullName")  Optional<String> actorFullName){
+    public List<FilmDetailsOutput> getFilms(@RequestParam("categoryName")  Optional<String> categoryName,@RequestParam("categoryID") Optional<Byte> categoryID ,@RequestParam("actorFullName")  Optional<String> actorFullName,
+                                            @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size",defaultValue = "10") int size){
 
         if(categoryName.isPresent())
-            return filmService.getFilmsInCatagoryName(categoryName.get());
+            return filmService.getFilmsInCatagoryName(categoryName.get(),page,size);
         if(categoryID.isPresent())
-            return filmService.getFilmsInCatagoryid(categoryID.get());
+            return filmService.getFilmsInCatagoryid(categoryID.get(),page,size);
         if(actorFullName.isPresent()){
             System.out.printf(actorFullName.get());
-            return filmService.getFilmsByActorFullName(actorFullName.get());}
+            return filmService.getFilmsByActorFullName(actorFullName.get(),page,size);}
         return filmService.getFilms();
     }
 

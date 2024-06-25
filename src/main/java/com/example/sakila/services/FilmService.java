@@ -10,6 +10,7 @@ import com.example.sakila.repository.CategoryRepository;
 import com.example.sakila.repository.FilmRepository;
 import com.example.sakila.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,22 +32,22 @@ public class FilmService {
         return filmRepository.findAll().stream().map(FilmDetailsOutput::new).toList();
     }
 
-    public List<FilmDetailsOutput> getFilmsInCatagoryName(String catagoryName){
-        return filmRepository.findByCategoryName(catagoryName.strip()).stream().map(FilmDetailsOutput::new).toList();
+    public List<FilmDetailsOutput> getFilmsInCatagoryName(String catagoryName,int page, int size){
+        return filmRepository.findByCategoryName(catagoryName.strip(), PageRequest.of(page,size)).stream().map(FilmDetailsOutput::new).toList();
 
     }
-    public List<FilmDetailsOutput> getFilmsInCatagoryid(Byte id){
-        return filmRepository.findByCategoryId(id).stream().map(FilmDetailsOutput::new).toList();
+    public List<FilmDetailsOutput> getFilmsInCatagoryid(Byte id,int page,int size){
+        return filmRepository.findByCategoryId(id, PageRequest.of(page,size)).stream().map(FilmDetailsOutput::new).toList();
 
     }
 
-    public List<FilmDetailsOutput> getFilmsByActorFullName(String fullName ){
-        return filmRepository.findByCategoryName(fullName.strip()).stream().map(FilmDetailsOutput::new).toList();
+    public List<FilmDetailsOutput> getFilmsByActorFullName(String fullName,int page, int size){
+        return filmRepository.findByActorFullName(fullName.strip(), PageRequest.of(page,size)).stream().map(FilmDetailsOutput::new).toList();
     }
 
 
-    public List<FilmDetailsOutput> getFilmsInCatagoryName(Byte id){
-        return filmRepository.findByCategoryId(id).stream().map(FilmDetailsOutput::new).toList();
+    public List<FilmDetailsOutput> getFilmsInCatagoryName(Byte id,int page, int size){
+        return filmRepository.findByCategoryId(id, PageRequest.of(page,size)).stream().map(FilmDetailsOutput::new).toList();
 
     }
 
