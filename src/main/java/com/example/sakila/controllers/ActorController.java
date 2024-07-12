@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/actors")
+@RequestMapping("api/actors")
 public class ActorController {
 
     @Autowired
