@@ -29,7 +29,7 @@ public class FilmDetailsOutput {
     private BigDecimal rentalRate;
     private Short length;
     private BigDecimal replacementCost;
-    private String rating;
+    //private String rating;
     private String specialFeatures;
 
 
@@ -48,7 +48,7 @@ public class FilmDetailsOutput {
         rentalRate = f.getRentalRate();
         length = f.getLength();
         replacementCost = f.getReplacementCost();
-        rating = enumToRating(f.getRating());
+        //rating = enumToRating(f.getRating());
         specialFeatures = f.getSpecialFeatures();
         for(Category c : f.getCategories()){
             categories.add(new ShortCategoryDetailsOutput(c));

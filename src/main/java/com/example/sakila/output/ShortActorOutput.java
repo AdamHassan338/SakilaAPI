@@ -4,7 +4,6 @@ import com.example.sakila.entities.Actor;
 import lombok.Getter;
 
 
-
 @Getter
 public class ShortActorOutput {
     private final Short id;

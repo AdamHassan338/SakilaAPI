@@ -1,5 +1,6 @@
 package com.example.sakila.entities;
 import com.example.sakila.enums.Rating;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,7 @@ public class Film {
     @Column(name = "description")
     private String description;
 
-
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     @Column(name = "release_year")
     private Year year;
 
